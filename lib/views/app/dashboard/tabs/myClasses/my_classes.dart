@@ -55,15 +55,25 @@ class _MyClasses extends State<MyClasses>{
     return Padding(
       padding: EdgeInsets.only(bottom: 10),
       child: TextButton(
+
         style: TextButton.styleFrom(
-          backgroundColor: backgroundColor ?? Colors.deepPurple
+          backgroundColor: backgroundColor ?? Colors.deepPurple,
+          padding: EdgeInsets.all(0)
         ),
+        
         onPressed: (){},
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: 120,
           child: Container(
-            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              // image: DecorationImage(
+              //   image: AssetImage('assets/images/classbg.png'),
+              //   alignment: Alignment.topRight,
+              //   scale: 1.5
+              // )
+            ),
+            padding: EdgeInsets.all(15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

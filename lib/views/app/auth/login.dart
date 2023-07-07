@@ -22,7 +22,7 @@ class _Login extends State<Login>{
             Text("Enter your University ID and Password to login", style: TextStyle(color: Colors.grey),),
             Padding(padding: EdgeInsets.only(top: 10)),
             Card(
-              elevation: 180.0,
+              elevation: 30.0,
               color: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(7),
@@ -72,6 +72,7 @@ class _Login extends State<Login>{
         SizedBox(height: 5,),
         TextFormField(
           decoration: const InputDecoration(
+            hintText: "Your Student ID",
             prefixIcon: Icon(Icons.person),
           ),
         ),
@@ -89,6 +90,7 @@ class _Login extends State<Login>{
         TextFormField(
           obscureText: true,
           decoration: const InputDecoration(
+            hintText: "Your Password",
             prefixIcon: Icon(Icons.key),
           ),
         ),
