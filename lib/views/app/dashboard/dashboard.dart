@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:learning_space/views/app/dashboard/tabs/info_booth.dart';
+import 'package:learning_space/views/app/dashboard/tabs/infoBooth/info_booth.dart';
+import 'package:learning_space/views/app/dashboard/tabs/myClasses/my_classes.dart';
 
 class Dashboard extends StatefulWidget{
   const Dashboard({super.key});
@@ -120,7 +121,7 @@ class _Dashboard extends State<Dashboard>{
           child: TabBarView(
             children: [
               InfoBooth(),
-              Text("Test 2")
+              MyClasses()
             ],
           ),
         )
