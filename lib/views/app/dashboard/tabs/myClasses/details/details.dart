@@ -29,7 +29,7 @@ class _Details extends State<Details>{
             padding: EdgeInsets.all(10),
             child: TabBarView(
               children: [
-                Discussion(),
+                Discussion(color: widget.color),
                 Text("Tab 2")
               ],
             )
