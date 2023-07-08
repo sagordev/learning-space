@@ -52,7 +52,7 @@ class _Dashboard extends State<Dashboard>{
                                   backgroundImage: NetworkImage(
                                       userDetails['claims']['photo']
                                   ),
-                                  radius: 20,
+                                  radius: 21,
                                 ),
                                 SizedBox(width: 10,),
                                 Column(
