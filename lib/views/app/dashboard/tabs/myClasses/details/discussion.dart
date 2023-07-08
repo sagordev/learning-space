@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:learning_space/views/app/dashboard/tabs/myClasses/details/post_discussion.dart';
 
 class Discussion extends StatefulWidget{
-  const Discussion({super.key});
+  final Color color;
+  const Discussion({super.key, required this.color});
   @override
   State<StatefulWidget> createState() => _Discussion();
 }
@@ -97,8 +99,12 @@ class _Discussion extends State<Discussion>{
 
   Widget getAnnouncementPostOption(){
     return Padding(padding: EdgeInsets.only(bottom: 10),
-      child: TextButton(
-          onPressed: (){},
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        child: TextButton(
+          onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => PostDiscussion(color: widget.color)));
+          },
           style: TextButton.styleFrom(
             backgroundColor: Colors.white,
             padding: EdgeInsets.all(0),
@@ -106,7 +112,7 @@ class _Discussion extends State<Discussion>{
           child: Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-              border: Border.all(width: 1, color: Colors.grey),
+              border: Border.all(width: 1, color: Color(0xFFDFDFDF)),
               borderRadius: BorderRadius.all(Radius.circular(10))
             ),
             child: Row(
@@ -117,6 +123,6 @@ class _Discussion extends State<Discussion>{
             ),
           )
       )
-    );
+    ));
   }
 }

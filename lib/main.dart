@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:learning_space/services/auth_service.dart';
+import 'package:learning_space/services/navigation_service.dart';
 import 'package:learning_space/views/app/auth/login.dart';
 import 'package:learning_space/views/app/dashboard/dashboard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main()  async {
   WidgetsFlutterBinding.ensureInitialized();
   String initRoute = '/login';
+  dynamic isValidTokenExist = await AuthService().isValidTokenExist();
+  if(isValidTokenExist != false){
+    initRoute = '/dashboard';
+  }
 
   runApp(MyApp(initialRoute: initRoute));
 }
@@ -58,6 +65,7 @@ class MyApp extends StatelessWidget {
         '/login' : (context) => const Login(),
         '/dashboard' : (context) => const Dashboard()
       },
+      navigatorKey: NavigationService.navigatorKey,
     );
   }
 }
