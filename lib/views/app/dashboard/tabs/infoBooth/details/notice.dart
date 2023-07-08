@@ -12,12 +12,12 @@ class _Notice extends State<Notice>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
-      ),
-    body: Container(
-    padding: EdgeInsets.all(10),
-    child: Text('')
-    )
+          title: Text(widget.title),
+        ),
+        body: Container(
+        padding: EdgeInsets.all(10),
+        child: Text('')
+      )
     );
   }
 }

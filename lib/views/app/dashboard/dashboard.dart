@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:learning_space/services/auth_service.dart';
 import 'package:learning_space/views/app/dashboard/tabs/infoBooth/info_booth.dart';
 import 'package:learning_space/views/app/dashboard/tabs/myClasses/my_classes.dart';
 
@@ -10,6 +11,17 @@ class Dashboard extends StatefulWidget{
 }
 
 class _Dashboard extends State<Dashboard>{
+  dynamic userDetails;
+  @override
+  void initState() {
+    super.initState();
+    getLocalData();
+  }
+
+  void getLocalData() async {
+    userDetails = await AuthService().getDecodedToken();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -37,21 +49,24 @@ class _Dashboard extends State<Dashboard>{
                               children: [
                                 CircleAvatar(
                                   backgroundColor: Colors.white,
-                                  child: Icon(Icons.person, color: Colors.grey,),
+                                  backgroundImage: NetworkImage(
+                                      userDetails['claims']['photo']
+                                  ),
+                                  radius: 20,
                                 ),
                                 SizedBox(width: 10,),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("Md. Asadujjaman Sagor", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),),
-                                    Text("1944651050", style: TextStyle(color: Colors.white),)
+                                    Text(userDetails?['claims']?['fullName'] ?? 'User', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),),
+                                    Text(userDetails?['claims']?['username'] ?? '-', style: TextStyle(color: Colors.white),)
                                   ],
                                 )
                               ],
                             ),
                             ElevatedButton(
-                              onPressed: (){
-                                Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
+                              onPressed: () async {
+                                await AuthService().logout();
                               },
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
