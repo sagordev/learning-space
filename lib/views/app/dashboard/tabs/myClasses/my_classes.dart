@@ -53,6 +53,7 @@ class _MyClasses extends State<MyClasses>{
   }
 
   Widget getClassCard({courseTitle, courseCode, classDate, classTime, backgroundColor}){
+    final Color bgcolor = backgroundColor ?? Colors.deepPurple;
     final String title = '$courseCode - $courseTitle';
     return Padding(
       padding: EdgeInsets.only(bottom: 10),
@@ -64,7 +65,7 @@ class _MyClasses extends State<MyClasses>{
         ),
         
         onPressed: (){
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Details(title: title)));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Details(title: title, color: bgcolor)));
         },
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
