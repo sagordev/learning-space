@@ -13,6 +13,7 @@ class _Discussion extends State<Discussion>{
         style: TextStyle(fontSize: 15, color: Colors.black),
         child: ListView(
           children: [
+            getAnnouncementPostOption(),
             getSingleDiscussion(
               author: "Mrinmoy Biswas Akash",
               time: "Jul 8, 2023",
@@ -91,6 +92,31 @@ class _Discussion extends State<Discussion>{
             )
           ],
         )
+    );
+  }
+
+  Widget getAnnouncementPostOption(){
+    return Padding(padding: EdgeInsets.only(bottom: 10),
+      child: TextButton(
+          onPressed: (){},
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.white,
+            padding: EdgeInsets.all(0),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              border: Border.all(width: 1, color: Colors.grey),
+              borderRadius: BorderRadius.all(Radius.circular(10))
+            ),
+            child: Row(
+              children: [
+                CircleAvatar(child: Icon(Icons.person, color: Colors.grey,),backgroundColor: Color(0xFFDFDFDF),),
+                Text(" Announce something to your class...", style: TextStyle(color: Colors.grey),)
+              ],
+            ),
+          )
+      )
     );
   }
 }
