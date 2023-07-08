@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:learning_space/views/app/dashboard/tabs/myClasses/details/details.dart';
 
 class MyClasses extends StatefulWidget{
   const MyClasses({super.key});
@@ -52,6 +53,7 @@ class _MyClasses extends State<MyClasses>{
   }
 
   Widget getClassCard({courseTitle, courseCode, classDate, classTime, backgroundColor}){
+    final String title = '$courseCode - $courseTitle';
     return Padding(
       padding: EdgeInsets.only(bottom: 10),
       child: TextButton(
@@ -61,7 +63,9 @@ class _MyClasses extends State<MyClasses>{
           padding: EdgeInsets.all(0)
         ),
         
-        onPressed: (){},
+        onPressed: (){
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Details(title: title)));
+        },
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: 120,
@@ -78,7 +82,7 @@ class _MyClasses extends State<MyClasses>{
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('$courseCode - $courseTitle', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),),
+                Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),),
                 Row(
                   children: [
                     Expanded(
