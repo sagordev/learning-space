@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'Learning Space',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        scaffoldBackgroundColor: const Color(0xFFEFEFEF),
         primaryColor: const Color(0xffff2950),
         appBarTheme: AppBarTheme(
           backgroundColor: const Color(0xffff2950)

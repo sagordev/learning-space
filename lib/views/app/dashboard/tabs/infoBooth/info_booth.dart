@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:learning_space/views/app/dashboard/tabs/infoBooth/details/uits.dart';
 
 class InfoBooth extends StatelessWidget{
   const InfoBooth({super.key});
@@ -20,7 +21,9 @@ class InfoBooth extends StatelessWidget{
           icon: Icons.domain_rounded,
           text: "UITS",
           color: Colors.green,
-          onPressed: (){}
+          onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Uits(title: "About UITS")));
+          }
         ),
         getIconButton(
             icon: Icons.contact_phone_rounded,
