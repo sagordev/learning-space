@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:learning_space/views/app/dashboard/tabs/infoBooth/details/uits.dart';
+import 'details/emergency.dart';
+import 'details/notice.dart';
+import 'details/links.dart';
 
 class InfoBooth extends StatelessWidget{
   const InfoBooth({super.key});
@@ -15,7 +18,9 @@ class InfoBooth extends StatelessWidget{
           icon: Icons.campaign_rounded,
           text: "Notice",
           color: Colors.redAccent,
-          onPressed: (){}
+          onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const Notice(title: " This is notice page")));
+          }
         ),
         getIconButton(
           icon: Icons.domain_rounded,
@@ -53,7 +58,9 @@ class InfoBooth extends StatelessWidget{
           icon: Icons.emergency,
           text: "Emergency",
           color: Colors.lightGreen,
-          onPressed: (){}
+          onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Emergency(title: "This is Emergency")));
+          }
         ),
         getIconButton(
             icon: Icons.library_books_rounded,
@@ -65,7 +72,9 @@ class InfoBooth extends StatelessWidget{
             icon: Icons.insert_link_rounded,
             text: "Links",
             color: Colors.purpleAccent,
-            onPressed: (){}
+            onPressed: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const Links(title: " This is Link page")));
+            }
         )
       ],
     );
