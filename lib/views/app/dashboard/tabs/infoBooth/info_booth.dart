@@ -19,7 +19,7 @@ class InfoBooth extends StatelessWidget{
           text: "Notice",
           color: Colors.redAccent,
           onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const Notice(title: " This is notice page")));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const Notice(title: " Notices")));
           }
         ),
         getIconButton(
@@ -59,7 +59,7 @@ class InfoBooth extends StatelessWidget{
           text: "Emergency",
           color: Colors.lightGreen,
           onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Emergency(title: "This is Emergency")));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Emergency(title: "Emergency Contacts")));
           }
         ),
         getIconButton(
@@ -73,7 +73,7 @@ class InfoBooth extends StatelessWidget{
             text: "Links",
             color: Colors.purpleAccent,
             onPressed: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const Links(title: " This is Link page")));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const Links(title: " Important Links")));
             }
         )
       ],
