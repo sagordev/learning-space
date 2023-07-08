@@ -52,6 +52,7 @@ class _PostDiscussion extends State<PostDiscussion>{
   Widget getForm(){
     return Expanded(
         child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               TextFormField(
                 minLines: 8,

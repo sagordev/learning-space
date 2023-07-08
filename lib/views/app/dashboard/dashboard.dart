@@ -19,7 +19,10 @@ class _Dashboard extends State<Dashboard>{
   }
 
   void getLocalData() async {
-    userDetails = await AuthService().getDecodedToken();
+    dynamic a = await AuthService().getDecodedToken();
+    setState(() {
+      userDetails = a;
+    });
   }
 
   @override
@@ -49,17 +52,15 @@ class _Dashboard extends State<Dashboard>{
                               children: [
                                 CircleAvatar(
                                   backgroundColor: Colors.white,
-                                  backgroundImage: NetworkImage(
-                                      userDetails['claims']['photo']
-                                  ),
+                                  child: Icon(Icons.person),
                                   radius: 21,
                                 ),
                                 SizedBox(width: 10,),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(userDetails?['claims']?['fullName'] ?? 'User', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),),
-                                    Text(userDetails?['claims']?['username'] ?? '-', style: TextStyle(color: Colors.white),)
+                                    Text('${userDetails?['claims']?['fullName'] ?? '...'}', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),),
+                                    Text('${userDetails?['claims']?['username'] ?? '...'}', style: TextStyle(color: Colors.white),)
                                   ],
                                 )
                               ],
