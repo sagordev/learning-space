@@ -9,31 +9,44 @@ class Emergency extends StatefulWidget{
 class _Emergency extends State<Emergency>{
   @override
   Widget build(BuildContext context) {
-    var arrName =[ 'Various government services  333', ' Police, fire service and ambulance services 999 ',
-    'women and children are abused 109 ', '	Dudok Helpline 106' , 'Disaster warning in advance 1090',
-      ' Bangladesh Police helpdesk 100' ,' RAB helpdesk 101 ', 'Fire Service Hotline 102',
-    'National Identity Card 105', 'Government legal assistance 16430'];
+    List<Map<String, dynamic>> contacts = [
+      {'Emergency': 999},
+      {'Various govt. services': 333},
+      {'Women and children abused': 109},
+      {'Dudok Helpline': 106},
+      {'Disaster warning in advance': 1090},
+      {'Bangladesh Police helpdesk': 105},
+      {'Government legal assistance': 16430}
+    ];
+
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body:ListView.separated(itemBuilder: (context,index){
-          return Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(arrName[index], style: TextStyle(fontSize: 21, fontWeight: FontWeight.w500)),
-              )
-            ],
-          );
-        },
-          itemCount: arrName.length,
-          scrollDirection: Axis.vertical,
-          separatorBuilder: (BuildContext context, int index) {
-          return Divider(height: 40,);
+        body: Padding(
+          padding: EdgeInsets.all(15),
+          child: ListView.separated(itemBuilder: (context,index){
+            return Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                    child: Text(contacts[index].keys.first)
+                ),
+                Expanded(
+                  flex: 1,
+                    child: SelectableText('${contacts[index].values.first}', style: TextStyle(fontWeight: FontWeight.bold),)
+                )
+              ],
+            );
           },
+            itemCount: contacts.length,
+            scrollDirection: Axis.vertical,
+            separatorBuilder: (BuildContext context, int index) {
+              return Divider(height: 30,);
+            },
 
-    )
+          ),
+        )
 
     );
   }

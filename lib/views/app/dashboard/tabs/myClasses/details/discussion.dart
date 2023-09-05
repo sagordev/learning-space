@@ -1,46 +1,103 @@
 import 'package:flutter/material.dart';
+import 'package:learning_space/model/announcement_model.dart';
+import 'package:learning_space/services/auth_service.dart';
+import 'package:learning_space/services/class_service.dart';
 import 'package:learning_space/views/app/dashboard/tabs/myClasses/details/post_discussion.dart';
+import 'package:learning_space/views/shared/avatar.dart';
+
+import 'package:learning_space/model/comments.dart';
 
 class Discussion extends StatefulWidget{
+  final int classId;
   final Color color;
-  const Discussion({super.key, required this.color});
+  final String title;
+  const Discussion({super.key, required this.classId, required this.title, required this.color});
   @override
   State<StatefulWidget> createState() => _Discussion();
 }
 
 class _Discussion extends State<Discussion>{
+  late Future<List<AnnouncementModel>> announcements;
+  Map<String, dynamic> userDetails = {};
+  @override
+  void initState() {
+    _getAnnouncement();
+    () async {
+      final ud = await AuthService().getDecodedToken();
+      setState(() {
+        userDetails = ud['claims'];
+      });
+    }();
+    super.initState();
+  }
+
+
+
+  _getAnnouncement(){
+    Future<List<AnnouncementModel>> data = ClassService().getAnnouncements(widget.classId);
+    setState(() {
+      announcements = data;
+    });
+    return data;
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTextStyle(
         style: TextStyle(fontSize: 15, color: Colors.black),
-        child: ListView(
-          children: [
-            getAnnouncementPostOption(),
-            getSingleDiscussion(
-              author: "Mrinmoy Biswas Akash",
-              time: "Jul 8, 2023",
-              content: "Hello everyone.We have a presentation due, when do you want to do it? Let's do it fast, as we need to publish the result.You can submit the presentation in two ways:1. Live online presentation with me. In this case, give me a time when you can do it.2. Make a video of you presenting your slides with voiceover and recorded-screen and send it to me. My email address is mrinmoy.biswas@uits.edu.bd, in the subject field write SRM-Presentation and add your name and roll number with the mail.Thank you."
-            ),
-            getSingleDiscussion(
-                author: "Afsana Akter",
-                time: "Jul 7, 2023",
-                content: "Dear Sir, Could you please post the reference book here?"
-            ),
-            getSingleDiscussion(
-                author: "Md. Asadujjaman Sagor",
-                time: "Jul 6, 2023",
-                content: "Sir, We need a make up class, I think we can arrange it next sunday at 7:00pm. All of my batchmates are OK with that time."
-            )
-          ],
+        child: RefreshIndicator(
+          onRefresh: () => _getAnnouncement(),
+          child: Column(
+            children: [
+              FutureBuilder(
+                future: announcements,
+                builder: (context, snapshot){
+                  if(snapshot.hasData){
+                    return Expanded(
+                        child: ListView.builder(
+                            itemCount: (snapshot.data?.length ?? 0) + 1,
+                            itemBuilder: (context, index){
+                              if(index == 0){
+                                return getAnnouncementPostOption();
+                              }
+                              int index_ = index - 1;
+                              return getSingleDiscussion(
+                                  announcementId: snapshot.data![index_].announcementId,
+                                  author: snapshot.data![index_].fullName,
+                                  time: snapshot.data![index_].time,
+                                  content: snapshot.data![index_].content,
+                                  commentsCount: snapshot.data![index_].commentsCount,
+                                  type: snapshot.data![index_].userType,
+                                  username: snapshot.data![index_].username,
+                                  photo: snapshot.data![index_].photo
+                              );
+                            }
+                        )
+                    );
+                  }else if(snapshot.hasError){
+                    return Center(child: Text("Something went wrong"),);
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              )
+            ],
+          )
         )
     );
   }
 
 
   Widget getSingleDiscussion({
+    announcementId,
     author,
     time,
-    content
+    content,
+    commentsCount,
+    type,
+    username,
+    photo
   }){
     return Container(
         margin: EdgeInsets.only(bottom: 10),
@@ -54,13 +111,23 @@ class _Discussion extends State<Discussion>{
           children: [
             Row(
               children: [
-                CircleAvatar(child: Icon(Icons.person, color: Colors.grey,),backgroundColor: Color(0xFFDFDFDF),),
+                Avatar(photo: photo,),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(" $author", style: TextStyle(fontWeight: FontWeight.bold),),
-                    Text(" $time", style: TextStyle(color: Colors.grey),)
+                    Padding(
+                        padding: EdgeInsets.only(left: 3),
+                        child: Row(
+                          children: [
+                            Text(type == "teacher" ? "Teacher" : username, style: TextStyle(color: Colors.grey)),
+                            Text(" • "),
+                            Text("$time", style: TextStyle(color: Colors.grey),),
+                          ],
+                        ),
+                    )
+
                   ],
                 ),
               ],
@@ -69,9 +136,24 @@ class _Discussion extends State<Discussion>{
             Container(
                 padding: EdgeInsets.only(top: 10),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(content),
                     Divider(),
+                    SizedBox(
+                      height: 25,
+                      child: GestureDetector(
+                          onTap: (){
+                            _openComments(announcementId: announcementId);
+                          },
+                          // style: TextButton.styleFrom(
+                          //   padding: EdgeInsets.all(0),
+                          // ),
+                          child: Text("${commentsCount} Comments", style: TextStyle(
+                            color: Colors.grey
+                          ),)
+                      ),
+                    ),
                     Row(
                       children: [
                         Container(
@@ -103,7 +185,10 @@ class _Discussion extends State<Discussion>{
         borderRadius: BorderRadius.all(Radius.circular(10)),
         child: TextButton(
           onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => PostDiscussion(color: widget.color)));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => PostDiscussion(
+                classId: widget.classId, color: widget.color, title: widget.title))).then((_){
+                  _getAnnouncement();
+            });
           },
           style: TextButton.styleFrom(
             backgroundColor: Colors.white,
@@ -117,12 +202,134 @@ class _Discussion extends State<Discussion>{
             ),
             child: Row(
               children: [
-                CircleAvatar(child: Icon(Icons.person, color: Colors.grey,),backgroundColor: Color(0xFFDFDFDF),),
+                Avatar(photo: userDetails?['photo'],),
                 Text(" Announce something to your class...", style: TextStyle(color: Colors.grey),)
               ],
             ),
           )
       )
     ));
+  }
+
+  _openComments({announcementId}){
+    var txt = TextEditingController();
+    String? comment;
+    bool isCommentPosting = false;
+    late Future<List<Comments>> allComments;
+    getComments() async {
+      Future<List<Comments>> ac = ClassService().getAnnouncementComments(announcementId);
+      setState(() {
+        allComments = ac;
+      });
+      return ac;
+    }
+    getComments();
+
+    onCreateComment() async {
+      if(comment == null || comment == ''){
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                backgroundColor: Colors.red,
+                content: Text("Please write something")
+            )
+        );
+        return;
+      }
+      try{
+        dynamic resp = await ClassService().createComment(announcementId, '${comment}');
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                backgroundColor: resp['success'] ? Colors.green : Colors.red,
+                content: Text(resp['message'])
+            )
+        );
+        if(resp['success']){
+          txt.text = '';
+        }
+      }catch(e, st){
+        print(st);
+      }
+    }
+
+    showDialog(
+        context: context,
+        builder: (context){
+          return Dialog(
+            child: StatefulBuilder(
+              builder:(_, setState) => Container(
+                padding: EdgeInsets.all(10),
+                child: SingleChildScrollView(
+                  child: FutureBuilder(
+                    future: allComments,
+                    builder: (_, snapshot){
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Comments"),
+                          Divider(),
+                          Container(
+                            child: snapshot.hasData ? ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (_, index){
+                                return Padding(
+                                  padding: EdgeInsets.only(bottom: 10),
+                                  child: RichText(
+                                      text: TextSpan(
+                                          style: TextStyle(color: Colors.black),
+                                          children: [
+                                            TextSpan(text: "${snapshot.data![index].fullName} ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+                                            TextSpan(text: "${snapshot.data![index].comment} ")
+                                          ]
+                                      )
+                                  ),
+                                );
+                              }
+                            ): snapshot.hasError
+                                ? Text("Error")
+                                : Center(child: CircularProgressIndicator(),)
+                          ),
+                          Divider(),
+                          Row(
+                            children: [
+                              Expanded(child: TextField(
+                                onChanged: (value){
+                                  setState(() {
+                                    comment = value;
+                                  });
+                                },
+                                controller: txt,
+                                decoration: InputDecoration(
+                                    hintText: "Enter your comment.",
+                                ),
+                              )),
+                              GestureDetector(
+                                onTap: () async {
+                                  setState((){
+                                    isCommentPosting = true;
+                                  });
+                                  await onCreateComment();
+                                  setState((){
+                                    allComments = getComments();
+                                    comment = '';
+                                    isCommentPosting = false;
+                                  });
+                                },
+                                child: isCommentPosting ? CircularProgressIndicator() : Icon(Icons.send),
+                              )
+                            ],
+                          )
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ),
+            )
+          );
+        }
+    );
   }
 }

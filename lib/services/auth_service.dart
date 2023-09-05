@@ -14,7 +14,7 @@ class AuthService{
             'password': password
         };
         try{
-            dynamic response = await ApiService().dio.post(Endpoints().LOGIN, data: params, options: Options(
+            dynamic response = await ApiService().dio.post(Endpoints.LOGIN, data: params, options: Options(
                 headers: {
                   'withToken': false
                 }
@@ -22,8 +22,9 @@ class AuthService{
             dynamic responseBody = await response.data;
             storeToken(responseBody['data']['accessToken']);
             return true;
-        }catch(error){
+        }catch(error, t){
             print("error: $error");
+            print(t);
         }
     return false;
   }
@@ -35,7 +36,7 @@ class AuthService{
         if(token == null){
           return false;
         }
-        var response = await ApiService().dio.post(Endpoints().LOGIN);
+        var response = await ApiService().dio.post(Endpoints.LOGIN);
         var responseBody = await response.data;
         storeToken(responseBody['data']['access_token']);
         return true;

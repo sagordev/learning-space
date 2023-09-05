@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:learning_space/services/class_service.dart';
 
 class PostDiscussion extends StatefulWidget{
-  const PostDiscussion({super.key, required this.color});
+  const PostDiscussion({super.key, required this.classId, required this.title, required this.color});
+  final int classId;
   final Color color;
+  final String title;
   @override
   State<StatefulWidget> createState() => _PostDiscussion();
 }
@@ -10,6 +13,43 @@ class PostDiscussion extends StatefulWidget{
 class _PostDiscussion extends State<PostDiscussion>{
   final formKey = GlobalKey<FormState>();
   late String text;
+
+  submit() async {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_){
+          return Dialog(
+            child: SizedBox(
+              height: 120,
+              child:  Column(
+                // mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 15,),
+                  Text("Please wait...")
+                ],
+              ),
+            )
+          );
+        }
+    );
+    try{
+      dynamic resp = await ClassService().postAnnouncement(widget.classId, this.text);
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              backgroundColor: resp['success'] ? Colors.green : Colors.red,
+              content: Text(resp['message'])
+          )
+      );
+    }catch(e, st){
+      print(st);
+    }
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +73,7 @@ class _PostDiscussion extends State<PostDiscussion>{
                     style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(text: "Post an announcement to "),
-                      TextSpan(text: "CSE-431 - Machine Learning", style: TextStyle(fontWeight: FontWeight.bold))
+                      TextSpan(text: widget.title, style: TextStyle(fontWeight: FontWeight.bold))
                     ]
                   ),
               ),
@@ -83,7 +123,7 @@ class _PostDiscussion extends State<PostDiscussion>{
                   SizedBox(width: 5,),
                   ElevatedButton(onPressed: formKey.currentState != null && formKey.currentState!.validate() ? (){
                     formKey.currentState!.save();
-                    print(this.text);
+                    submit();
                   } : null,
 
                       child: Row(

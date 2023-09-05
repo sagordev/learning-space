@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:learning_space/views/app/dashboard/tabs/infoBooth/details/bus.dart';
+import 'package:learning_space/views/app/dashboard/tabs/infoBooth/details/contacts.dart';
+import 'package:learning_space/views/app/dashboard/tabs/infoBooth/details/library.dart';
+import 'package:learning_space/views/app/dashboard/tabs/infoBooth/details/routine.dart';
 import 'package:learning_space/views/app/dashboard/tabs/infoBooth/details/uits.dart';
 import 'details/emergency.dart';
 import 'details/notice.dart';
@@ -34,25 +38,33 @@ class InfoBooth extends StatelessWidget{
             icon: Icons.contact_phone_rounded,
             text: "Contacts",
             color: Colors.purpleAccent,
-            onPressed: (){}
+            onPressed: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Contacts(title: "Contacts")));
+            }
         ),
         getIconButton(
             icon: Icons.directions_bus_rounded,
             text: "Bus",
             color: Colors.orangeAccent,
-            onPressed: (){}
+            onPressed: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Bus(title: "Bus")));
+            }
         ),
         getIconButton(
           icon: Icons.calendar_month_rounded,
           text: "Routine",
           color: Colors.blueAccent,
-          onPressed: (){}
+          onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Routine(title: "Routine")));
+          }
         ),
         getIconButton(
             icon: Icons.local_florist_rounded,
             text: "Faculties",
             color: Colors.redAccent,
-            onPressed: (){}
+            onPressed: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Contacts(title: "Faculties")));
+            }
         ),
         getIconButton(
           icon: Icons.emergency,
@@ -66,7 +78,9 @@ class InfoBooth extends StatelessWidget{
             icon: Icons.library_books_rounded,
             text: "Library",
             color: Colors.orangeAccent,
-            onPressed: (){}
+            onPressed: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Library(title: "Library")));
+            }
         ),
         getIconButton(
             icon: Icons.insert_link_rounded,

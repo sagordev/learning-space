@@ -63,7 +63,7 @@ class _Login extends State<Login>{
               Padding(padding: EdgeInsets.only(top: 10)),
               Text("Learning Space", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
               Padding(padding: EdgeInsets.only(top: 10)),
-              Text("Enter your University ID and Password to login", style: TextStyle(color: Colors.grey),),
+              Text("Enter your University given ID and Password", style: TextStyle(color: Colors.grey),),
               Padding(padding: EdgeInsets.only(top: 10)),
               Card(
                   elevation: 30.0,
@@ -119,11 +119,11 @@ class _Login extends State<Login>{
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Student ID", textScaleFactor: 1.2,style: TextStyle(fontWeight: FontWeight.bold),),
+        Text("ID/Username", textScaleFactor: 1.2,style: TextStyle(fontWeight: FontWeight.bold),),
         SizedBox(height: 5,),
         TextFormField(
           decoration: const InputDecoration(
-            hintText: "Your Student ID",
+            hintText: "Your ID/Username",
             prefixIcon: Icon(Icons.person),
           ),
           validator: (value){

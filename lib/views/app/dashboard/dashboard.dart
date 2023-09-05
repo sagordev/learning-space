@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:learning_space/services/auth_service.dart';
+import 'package:learning_space/views/app/dashboard/drawer/settings.dart';
 import 'package:learning_space/views/app/dashboard/tabs/infoBooth/info_booth.dart';
 import 'package:learning_space/views/app/dashboard/tabs/myClasses/my_classes.dart';
+import 'package:learning_space/views/shared/avatar.dart';
 
 class Dashboard extends StatefulWidget{
   const Dashboard({super.key});
@@ -32,7 +34,31 @@ class _Dashboard extends State<Dashboard>{
       child: Scaffold(
         backgroundColor: Colors.white,
         drawer: Drawer(
-          child: Text("test"),
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Center(
+                  child: Text("Learning Space", style: TextStyle(fontSize: 25, color: Colors.white),),
+                ),
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.settings,
+                ),
+                title: const Text('Settings'),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => Settings())
+                  );
+                },
+              ),
+            ],
+          ),
         ),
         appBar: AppBar(
             title: Text("Learning Space"),
@@ -50,17 +76,13 @@ class _Dashboard extends State<Dashboard>{
                           children: [
                             Row(
                               children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  child: Icon(Icons.person),
-                                  radius: 21,
-                                ),
+                                Avatar(photo: userDetails?['claims']?['photo'],),
                                 SizedBox(width: 10,),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text('${userDetails?['claims']?['fullName'] ?? '...'}', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),),
-                                    Text('${userDetails?['claims']?['username'] ?? '...'}', style: TextStyle(color: Colors.white),)
+                                    Text('${userDetails?['claims']?['type'] == 'teacher' ? 'Teacher • ' : ''} ${userDetails?['claims']?['username'] ?? '...'}', style: TextStyle(color: Colors.white),)
                                   ],
                                 )
                               ],
