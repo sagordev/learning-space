@@ -1,6 +1,7 @@
-# learning_space
+Learning Space - Your Interactive Learning Companion
+# Learning Space is an open-source educational app developed using Flutter that aims to provide an interactive and user-friendly 
 
-Learning Management System
+platform for both educators and students. With Learning Space, you can create, manage, and participate in virtual classrooms, making online learning an engaging and enjoyable experience.
 
 ## Getting Started
 
